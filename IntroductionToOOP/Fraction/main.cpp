@@ -52,6 +52,15 @@ public:
 		this->denominator = 1;
 		cout << "SingleArgConstructor:" << this << endl;
 	}
+	Fraction(double decimal)
+	{
+		//decimal += 1e-10;	//1*10^(-10)
+		this->integer = decimal;
+		decimal -= integer;
+		this->denominator = 1e+9;//1*10^9
+		numerator = (decimal + 1e-10)* denominator;
+		reduce();
+	}
 	Fraction(int numerator, int denominator)
 	{
 		this->integer = 0;
@@ -204,8 +213,8 @@ bool operator==(Fraction left, Fraction right)
 {
 	/*left.to_improper();
 	right.to_improper();*/
-	return 
-		left.to_improper().get_numerator()*right.get_denominator() == 
+	return
+		left.to_improper().get_numerator()*right.get_denominator() ==
 		right.to_improper().get_numerator()*left.get_denominator();
 	/*if (left.get_numerator()*right.get_denominator() == right.get_numerator()*left.get_denominator())
 	{
@@ -252,7 +261,7 @@ ostream& operator<<(ostream& os, const Fraction& obj)
 		os << obj.get_numerator() << "/" << obj.get_denominator();
 		if (obj.get_integer())os << ")";
 	}
-	else if (obj.get_integer() == 0) os<< 0;
+	else if (obj.get_integer() == 0) os << 0;
 	return os;
 }
 istream& operator>>(istream& is, Fraction& obj)
@@ -412,6 +421,6 @@ void main()
 	/*Fraction A(2, 5, 10);
 	cout << A.reduce() << endl;
 	cout << Fraction(840, 3600).reduce() << endl;*/
-	Fraction A = 2.75;
+	Fraction A = 2.751;
 	cout << A << endl;
 }
