@@ -4,6 +4,9 @@ using std::cin;
 using std::cout;
 using std::endl;;
 
+class String;
+String operator+(const String& left, const String& right);
+
 class String
 {
 	int size;	//Размер строки в Байтах
@@ -63,6 +66,10 @@ public:
 		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyAssignment:\t" << this << endl;
 		return *this;
+	}
+	String& operator+=(const String& other)
+	{
+		return *this = *this + other;
 	}
 
 	const char& operator[](int i)const
