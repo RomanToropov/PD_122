@@ -47,6 +47,15 @@ public:
 		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor:" << this << endl;
 	}
+	String(String&& other)
+	{
+		this->size = other.size;
+		this->str = other.str;	//Копируем указатель на уже выделенную память, принадлежащую другому объекту
+		other.str = nullptr;	//Зануляем указатель в другом объекте, 
+								//чтобы деструктор НЕ смог удалить память, которая ему принадлежит.
+		other.size = 0;
+		cout << "MoveConstructor:" << this << endl;
+	}
 	~String()
 	{
 		delete[] this->str;
@@ -66,6 +75,16 @@ public:
 		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyAssignment:\t" << this << endl;
 		return *this;
+	}
+	String& operator=(String&& other)
+	{
+		if (this == &other)return *this;
+		delete[] this->str;
+		this->size = other.size;
+		this->str = other.str;
+		other.str = nullptr;
+		other.size = 0;
+		cout << "MoveAssignemnt:\t" << this << endl;
 	}
 	String& operator+=(const String& other)
 	{
@@ -106,7 +125,9 @@ ostream& operator<<(ostream& os, const String& obj)
 	return os << obj.get_str();
 }
 
-//#define CONSTRUCTORS_CHECK
+#define CONSTRUCTORS_CHECK
+//#define OPERATOR_PLUS_CHECK
+//#define CONSTRUCTOR_CALLING
 
 void main()
 {
@@ -137,11 +158,46 @@ void main()
 	cout << a << endl;
 #endif // CONSTRUCTORS_CHECK
 
+#ifdef OPERATOR_PLUS_CHECK
 	String str1 = "Hello";
 	String str2 = "World";
-	String str3 = str1 + str2;	//Неявно вызываем оператор +
+	cout << "\n--------------------------------------------\n";
+	String str3;
+	str3 = str1 + str2;	//Неявно вызываем оператор +
+	cout << "\n--------------------------------------------\n";
 	cout << str3 << endl;
-	cout << operator+(str1, str2) << endl;	//Явный вызов оператора +
-	str1 += str2;
+	//cout << operator+(str1, str2) << endl;	//Явный вызов оператора +
+	//str1 += str2;
+	//cout << str1 << endl;
+
+#endif // OPERATOR_PLUS_CHECK
+
+#ifdef CONSTRUCTOR_CALLING
+	String str1;	//Default constructor
 	cout << str1 << endl;
+	String str2 = "Hello";	//Single-argument constructor
+	cout << str2 << endl;
+	String str3 = str2;	//Copy constructor
+	cout << str3 << endl;
+	str3.print();
+
+	String str4();	//Здесь НЕ создается никакой объект, 
+	//эта строка НЕ вызывает конструктор по умолчанию явным образом,
+	//Здесь объявляется функция str4(), которая ничего не принимает, 
+	//и возвращает объект класса String
+	//cout << str4 << endl;
+	String str5{};//Явный вызов конструктора по умолчанию
+	str5.print();
+#endif // CONSTRUCTOR_CALLING
+
 }
+	//Move-методы
+/*
+Конструктор переноса
+Оператор присваивания переноса
+
+Shallow copy
+
+Reference to r-value:	Class&&
+C++11
+*/
