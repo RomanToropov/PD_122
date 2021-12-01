@@ -2,6 +2,12 @@ https://github.com/okovtun/PD_122.git
 https://www.youtube.com/watch?v=MD-QantEx1Y&list=PLeqyOOqxeiIONON3ba77iHmgVPH-p3XG1
 
 TODO:
+Создать ветку master->AcademySeparation, и в этой ветке вынести все классы в отдельные файлы.
+
+DONE:
+Создать ветку master->FractionSeparation и в этой ветке вынести класс Fraction в отдельные файлы.
+
+DONE:
 Реализовать класс String, описывающий строку.
 Варианты создания объектов:
 1. String str;	//Создается пустая строка размером 80 Байт
