@@ -1,0 +1,11 @@
+Polymorphism (Многоформенность) - это способность объектов вести себя по разному,
+в зависимости от обстоятельств.
+"На этапе компиляции" (Compile-Time Polymorphism)
+Ad-hoc Polymorphism
+
+Inclusion Polymorphism
+Run-Time Polymorphism
+Полиморфизм подтипов
+
+1. Указатели на базовый класс Generalisation - Обобщение
+2. Виртуальные функции (виртуальные методы) Specialisation - Уточнение

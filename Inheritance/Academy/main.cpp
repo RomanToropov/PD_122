@@ -45,13 +45,13 @@ public:
 		set_age(age);
 		cout << "HConstructor:\t" << this << endl;
 	}
-	~Human()
+	virtual ~Human()
 	{
 		cout << "HDestructor:\t" << this << endl;
 	}
 
 	//			Methods:
-	void print()const
+	virtual void print()const
 	{
 		cout << last_name << " " << first_name << " " << age << endl;
 	}
@@ -60,7 +60,7 @@ public:
 
 #define STUDENT_TAKE_PARAMETERS	const std::string& speciality, const std::string& group, double rating, double attendance
 #define STUDENT_GIVE_PARAMETERS speciality, group, rating, attendance
-class Student:public Human
+class Student :public Human
 {
 	std::string speciality;
 	std::string group;
@@ -100,7 +100,7 @@ public:
 		this->attendance = attendance;
 	}
 	//					Constructors:
-	Student(HUMAN_TAKE_PARAMETERS,	STUDENT_TAKE_PARAMETERS):Human(HUMAN_GIVE_PARAMETERS)
+	Student(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS) :Human(HUMAN_GIVE_PARAMETERS)
 	{
 		this->speciality = speciality;
 		this->group = group;
@@ -193,9 +193,12 @@ public:
 	}
 };
 
+//#define INHERITANCE_CHECK
+
 void main()
 {
 	setlocale(LC_ALL, "");
+#ifdef INHERITANCE_CHECK
 	Human hm("Тупенко", "Василий", 18);
 	hm.print();
 	Student st("Pinkman", "Jessie", 28, "Chemistry", "WW_01", 90, 85);
@@ -204,4 +207,30 @@ void main()
 	t.print();
 	Graduate gr("Shrader", "Hank", 40, "Criminalistic", "OBN", 90, 90, "How to catch Heisenberg");
 	gr.print();
+#endif // INHERITANCE_CHECK
+
+	//Generalisation (Обобщение):
+	Human* group[] =
+	{
+		new Student("Pinkman", "Jessie", 25, "Chemistry", "WW_011", 90, 80),
+		new Student("Vercetti", "Tomas", 30, "City business", "Vice", 88, 90),
+		new Teacher("White", "Walter", 50, "Chemistry", 20),
+		new Student("Diaz", "Ricardo", 55, "Weapons distribution", "Vice", 91, 80),
+		new Graduate("Shrader", "Hank", 40, "Criminalistics", "OBN", 85, 90, "How to catch Heisenberg"),
+		new Teacher("Einsten", "Albert", 142, "Astronomy", 110)
+	};
+	cout << sizeof(group)/sizeof(group[0]) << endl;
+	cout << "\n-----------------------------------\n";
+	//Specialisation:
+	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	{
+		group[i]->print();
+		cout << "\n-----------------------------------\n";
+	}
+
+	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+	{
+		delete group[i];
+	}
+
 }
