@@ -1,4 +1,5 @@
 #include<iostream>
+#include<fstream>
 #include<string>
 #include<ctime>
 #include<iomanip>
@@ -252,6 +253,16 @@ void main()
 		cout << *group[i] << endl;
 	}
 	cout << "\n-----------------------------------\n";
+
+	std::ofstream fout("group.txt");
+	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	{
+		//group[i]->print();
+		fout << typeid(*group[i]).name() << ":\t" << *group[i] << endl;
+	}
+	fout.close();
+
+	system("start notepad group.txt");
 
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{

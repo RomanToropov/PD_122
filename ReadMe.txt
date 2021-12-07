@@ -2,6 +2,11 @@ https://github.com/okovtun/PD_122.git
 https://www.youtube.com/watch?v=MD-QantEx1Y&list=PLeqyOOqxeiIONON3ba77iHmgVPH-p3XG1
 
 TODO:
+0. Почитать в Интернете про формат файлов *.CSV - Comma Separated Values;
+1. При выводе в файл каждое свойство должно быть отделено от предыдущего разделителем.
+2. Обеспечить загрузку объектов из файла;
+
+DONE:
 Создать ветку master->AcademySeparation, и в этой ветке вынести все классы в отдельные файлы.
 
 DONE:
