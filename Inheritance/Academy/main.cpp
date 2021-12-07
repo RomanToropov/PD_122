@@ -3,6 +3,7 @@
 #include<string>
 #include<ctime>
 #include<iomanip>
+using namespace std;
 using std::cin;
 using std::cout;
 using std::endl;
@@ -66,17 +67,32 @@ public:
 		os << std::right;
 		os << age;
 		return os;*/
-		return os 
+		return os
 			//#include<iomanip>
-			<< std::setw(15) << std::left << last_name 
+			<< std::setw(15) << std::left << last_name
 			<< std::setw(10) << std::left << first_name
 			<< std::setw(5) << std::right << age;
 	}
+	virtual std::ofstream& print(std::ofstream& os)const
+	{
+		//return 
+		os
+			<< std::setw(15) << std::left << last_name << ","
+			<< std::setw(10) << std::left << first_name << ","
+			<< std::setw(5) << std::right << age;
+		return os;
+	}
+
 };
 std::ostream& operator<<(std::ostream& os, const Human& obj)
 {
 	return obj.print(os);
 }
+std::ofstream& operator<<(std::ofstream& os, const Human& obj)
+{
+	return obj.print(os);
+}
+
 
 #define STUDENT_TAKE_PARAMETERS	const std::string& speciality, const std::string& group, double rating, double attendance
 #define STUDENT_GIVE_PARAMETERS speciality, group, rating, attendance
@@ -143,6 +159,17 @@ public:
 			<< std::setw(5) << std::right << rating
 			<< std::setw(5) << std::right << attendance;
 	}
+	std::ofstream& print(std::ofstream& os)const
+	{
+		//return Human::print(os) << " " << speciality + " " + group << " " << rating << " " << attendance;
+		Human::print(os) << ","
+			<< std::setw(25) << std::left << speciality << ","
+			<< std::setw(10) << std::left << group << ","
+			<< std::setw(5) << std::right << rating << ","
+			<< std::setw(5) << std::right << attendance;
+		return os;
+	}
+
 };
 
 #define TEACHER_TAKE_PARAMETERS const std::string& speciality, unsigned int experience
@@ -187,6 +214,15 @@ public:
 			<< std::setw(35) << std::left << speciality
 			<< std::setw(5) << std::right << experience;
 	}
+	std::ofstream& print(std::ofstream& os)const
+	{
+		//return Human::print(os) << " " << speciality << " " << experience;
+		Human::print(os) << ","
+			<< std::setw(35) << std::left << speciality<<","
+			<< std::setw(5) << std::right << experience;
+		return os;
+	}
+
 };
 
 class Graduate :public Student
@@ -214,7 +250,12 @@ public:
 	//						Methods:
 	std::ostream& print(std::ostream& os)const
 	{
-		return Student::print(os)<< " " << subject;
+		return Student::print(os) << " " << subject;
+	}
+	std::ofstream& print(std::ofstream& os)const
+	{
+		Student::print(os) << "," << subject;
+		return os;
 	}
 };
 
@@ -258,7 +299,8 @@ void main()
 	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
 	{
 		//group[i]->print();
-		fout << typeid(*group[i]).name() << ":\t" << *group[i] << endl;
+		fout << typeid(*group[i]).name() << ":\t";
+		fout << *group[i] << ";" << endl;
 	}
 	fout.close();
 
