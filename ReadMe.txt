@@ -2,6 +2,12 @@ https://github.com/okovtun/PD_122.git
 https://www.youtube.com/watch?v=MD-QantEx1Y&list=PLeqyOOqxeiIONON3ba77iHmgVPH-p3XG1
 
 TODO:
+1. Вывод конструкторов и деструкторов поместить в секцию DEBUG;
+2. Используя функции find(), find_first_not_of() и erase(), проверить каждую загружаемую из файла строку на наличие 
+лишних пробелов и удалить эти пробелы, если они есть.
+http://cplusplus.com/reference/string/string/
+
+DONE:
 0. Почитать в Интернете про формат файлов *.CSV - Comma Separated Values;
 1. При выводе в файл каждое свойство должно быть отделено от предыдущего разделителем.
 2. Обеспечить загрузку объектов из файла;
