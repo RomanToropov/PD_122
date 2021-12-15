@@ -7,6 +7,7 @@
 #include<cmath>
 using namespace std;
 
+//#define CONSOLE_DRAWING
 
 namespace Geometry
 {
@@ -31,8 +32,34 @@ namespace Geometry
 	{
 	protected:
 		Color color;
+		unsigned int line_width;
+		unsigned int start_x;
+		unsigned int start_y;
 	public:
-		Shape(Color color) :color(color) {}
+		void set_line_width(unsigned int line_width)
+		{
+			if (line_width > 20)line_width = 20;
+			this->line_width = line_width;
+		}
+		void set_start_x(unsigned int start_x)
+		{
+			if (start_x < 400)start_x = 400;
+			if (start_x > 800)start_x = 800;
+			this->start_x = start_x;
+		}
+		void set_start_y(unsigned int start_y)
+		{
+			if (start_y < 100)start_y = 100;
+			if (start_y > 500)start_y = 500;
+			this->start_y = start_y;
+		}
+
+		Shape(Color color, unsigned int line_width, unsigned int start_x, unsigned int start_y) :color(color)
+		{
+			set_line_width(line_width);
+			set_start_x(start_x);
+			set_start_y(start_y);
+		}
 		virtual ~Shape() {}
 
 		virtual double get_area()const = 0;		//Площадб фигуры
@@ -53,7 +80,7 @@ namespace Geometry
 			if (side <= 0)side = 1;
 			this->side = side;
 		}
-		Square(double side, Color color) :Shape(color)
+		Square(double side, Color color = Color::white, unsigned int line_width = 5, unsigned int start_x = 400, unsigned int start_y = 100) :Shape(color, line_width, start_x, start_y)
 		{
 			set_side(side);
 		}
@@ -69,6 +96,7 @@ namespace Geometry
 		}
 		void draw()const
 		{
+#ifdef CONSOLE_DRAWING
 			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 			SetConsoleTextAttribute(hConsole, color);
 			for (int i = 0; i < side; i++)
@@ -80,6 +108,8 @@ namespace Geometry
 				cout << endl;
 			}
 			SetConsoleTextAttribute(hConsole, Color::console_default);
+#endif // CONSOLE_DRAWING
+
 		}
 		void info()
 		{
@@ -114,7 +144,7 @@ namespace Geometry
 			if (side_B <= 0)side_B = 1;
 			this->side_B = side_B;
 		}
-		Rectangle(double side_A, double side_B, Color color) :Shape(color)
+		Rectangle(double side_A, double side_B, Color color = Color::white, unsigned int line_width = 5, unsigned int start_x = 400, unsigned int start_y = 100) :Shape(color, line_width, start_x, start_y)
 		{
 			set_side_A(side_A);
 			set_side_B(side_B);
@@ -131,6 +161,7 @@ namespace Geometry
 		}
 		void draw()const
 		{
+#ifdef CONSOLE_DRAWING
 			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 			SetConsoleTextAttribute(hConsole, color);
 			for (int i = 0; i < side_A; i++)
@@ -142,6 +173,24 @@ namespace Geometry
 				cout << endl;
 			}
 			SetConsoleTextAttribute(hConsole, Color::console_default);
+#endif // CONSOLE_DRAWING
+
+			HWND hwnd = GetConsoleWindow();
+			HDC hdc = GetDC(hwnd);
+
+			HPEN hPen = CreatePen(PS_SOLID, line_width, color);
+			HBRUSH hBrush = CreateSolidBrush(color);
+
+			SelectObject(hdc, hPen);
+			SelectObject(hdc, hBrush);
+
+			/*int start_x = 400;
+			int start_y = 100;*/
+			::Rectangle(hdc, start_x, start_y, start_x + side_A, start_y + side_B);
+
+			DeleteObject(hPen);
+			DeleteObject(hBrush);
+			ReleaseDC(hwnd, hdc);
 		}
 		void info()
 		{
@@ -150,7 +199,12 @@ namespace Geometry
 			cout << "Длина стороны B:\t" << side_B << endl;
 			cout << "Площадь:\t" << get_area() << endl;
 			cout << "Периметр:\t" << get_perimeter() << endl;
-			draw();
+			char key = 0;
+			while (key != 27)
+			{
+				draw();
+				if (_kbhit())key = _getch();
+			}
 		}
 	};
 
@@ -158,7 +212,7 @@ namespace Geometry
 	{
 		double radius;
 	public:
-		Circle(double radius, Color color = Color::white) :Shape(color)
+		Circle(double radius, Color color = Color::white, unsigned int line_width = 5, unsigned int start_x = 400, unsigned int start_y = 100) :Shape(color, line_width, start_x, start_x)
 		{
 			set_radius(radius);
 		}
@@ -188,7 +242,7 @@ namespace Geometry
 			//HWND hwnd = FindWindow(hwnd, /*L"Inheritance - Microsoft Visual Studio"*/NULL);
 			HDC hdc = GetDC(hwnd);	//Создаем контекст устройства. На этом контексте мы будем рисовать
 
-			HPEN hPen = CreatePen(PS_SOLID, 5, color);//Создаем карандаш
+			HPEN hPen = CreatePen(PS_SOLID, line_width, color);//Создаем карандаш
 			//PS_SOLID - сплошная линия
 			//5 - толщина линии в писелах
 			//RGB(...) - цвет
@@ -197,8 +251,8 @@ namespace Geometry
 			SelectObject(hdc, hPen);	//Выбираем чем и на чем будем рисовать
 			SelectObject(hdc, hBrush);
 
-			int start_x = 300;
-			int start_y = 270;
+			/*int start_x = 300;
+			int start_y = 270;*/
 			/*int end_x = 400;
 			int end_y = 370;*/
 
@@ -227,15 +281,15 @@ namespace Geometry
 	class Triangle :public Shape
 	{
 	public:
-		Triangle(Color color = Color::white) :Shape(color) {}
-		~Triangle(){}
+		Triangle(Color color = Color::white, unsigned int line_width = 5, unsigned int start_x = 400, unsigned int start_y = 100) :Shape(color, line_width, start_x, start_y) {}
+		~Triangle() {}
 		virtual double get_height()const = 0;
 	};
 	class EquilateralTriangle :public Triangle
 	{
 		double side;
 	public:
-		EquilateralTriangle(double side, Color color = Color::white) :Triangle(color)
+		EquilateralTriangle(double side, Color color = Color::white, unsigned int line_width = 5, unsigned int start_x = 400, unsigned int start_y = 100) :Triangle(color, line_width, start_x, start_y)
 		{
 			set_side(side);
 		}
@@ -264,12 +318,12 @@ namespace Geometry
 		{
 			HWND hwnd = GetConsoleWindow();
 			HDC hdc = GetDC(hwnd);
-			HPEN hPen = CreatePen(PS_SOLID, 5, color);
+			HPEN hPen = CreatePen(PS_SOLID, line_width, color);
 			HBRUSH hBrush = CreateSolidBrush(color);
 			SelectObject(hdc, hPen);
 			SelectObject(hdc, hBrush);
-			int start_x = 400;
-			int start_y = 200;
+			/*int start_x = 400;
+			int start_y = 200;*/
 			const POINT verticies[] =
 			{
 				{start_x, start_y + side},
@@ -290,9 +344,11 @@ namespace Geometry
 			cout << "Высота треугольника: " << get_height() << endl;
 			cout << "Площадь треугольника: " << get_area() << endl;
 			cout << "Периметр треугольника: " << get_perimeter() << endl;
-			while (true)
+			char key = 0;
+			while (key != 27)
 			{
 				draw();
+				if (_kbhit())key = _getch();
 			}
 		}
 	};
@@ -305,12 +361,12 @@ void main()
 	Geometry::Square square(8, Geometry::Color::console_blue);
 	square.info();
 
-	Geometry::Rectangle rect(5, 12, Geometry::Color::console_red);
+	Geometry::Rectangle rect(250, 120, Geometry::Color::console_red, 15, 3000,40000);
 	rect.info();
 
-	Geometry::Circle circle(200, Geometry::Color::yellow);
+	Geometry::Circle circle(70, Geometry::Color::yellow);
 	circle.info();
 
-	Geometry::EquilateralTriangle et(200, Geometry::Color::green);
+	Geometry::EquilateralTriangle et(200, Geometry::Color::green, 20, 200, 50);
 	et.info();
 }
