@@ -26,17 +26,200 @@ class List
 	}*Head, *Tail;	//Сразу же после описания класса Element объявляем два указателя на Element
 	size_t size;
 public:
+	class Iterator
+	{
+		Element* Temp;
+	public:
+		Iterator(Element* Temp = nullptr) :Temp(Temp)
+		{
+#ifdef DEBUG
+			cout << "ItConstructor:\t" << this << endl;
+#endif // DEBUG
+		}
+		~Iterator()
+		{
+#ifdef DEBUG
+			cout << "ItConstructor:\t" << this << endl;
+#endif // DEBUG
+		}
+
+		//					Operators:
+		Iterator& operator++()
+		{
+			Temp = Temp->pNext;
+			return *this;
+		}
+		Iterator operator++(int)
+		{
+			Iterator old = *this;
+			Temp = Temp->pNext;
+			return old;
+		}
+		Iterator& operator--()
+		{
+			Temp = Temp->pPrev;
+			return *this;
+		}
+		Iterator operator--(int)
+		{
+			Iterator old = *this;
+			Temp = Temp->pPrev;
+			return old;
+		}
+
+		bool operator==(const Iterator& other)const
+		{
+			return this->Temp == other.Temp;
+		}
+		bool operator!=(const Iterator& other)const
+		{
+			return this->Temp != other.Temp;
+		}
+
+		const int& operator*()const
+		{
+			return Temp->Data;
+		}
+		int& operator*()
+		{
+			return Temp->Data;
+		}
+
+	};
+
+	class ReverseIterator
+	{
+		Element* Temp;
+	public:
+		ReverseIterator(Element* Temp = nullptr) :Temp(Temp)
+		{
+#ifdef DEBUG
+			cout << "RItConstructor:\t" << this << endl;
+#endif // DEBUG
+		}
+		~ReverseIterator()
+		{
+#ifdef DEBUG
+			cout << "RItDestructor:\t" << this << endl;
+#endif // DEBUG
+		}
+
+		//					Operators:
+		ReverseIterator& operator++()
+		{
+			Temp = Temp->pPrev;
+			return *this;
+		}
+		ReverseIterator& operator--()
+		{
+			Temp = Temp->pNext;
+			return *this;
+		}
+		ReverseIterator& operator++(int)
+		{
+			ReverseIterator old = *this;
+			Temp = Temp->pPrev;
+			return old;
+		}
+		ReverseIterator& operator--(int)
+		{
+			ReverseIterator old = *this;
+			Temp = Temp->pNext;
+			return old;
+		}
+
+		bool operator==(const ReverseIterator& other)
+		{
+			return this->Temp == other.Temp;
+		}
+		bool operator!=(const ReverseIterator& other)
+		{
+			return this->Temp != other.Temp;
+		}
+
+		const int& operator*()const
+		{
+			return Temp->Data;
+		}
+		int& operator*()
+		{
+			return Temp->Data;
+		}
+	};
+
+	Iterator begin()
+	{
+		return Head;
+	}
+	Iterator end()
+	{
+		return nullptr;
+	}
+	ReverseIterator rbegin()
+	{
+		return Tail;
+	}
+	ReverseIterator rend()
+	{
+		return nullptr;
+	}
+
+	//						Constructor:
 	List()
 	{
 		Head = Tail = nullptr;
 		size = 0;
 		cout << "LConstructor:\t" << this << endl;
 	}
+	List(const std::initializer_list<int>& il) :List()
+	{
+		/*for (int const* it = il.begin(); it != il.end(); it++)
+		{
+			push_back(*it);
+		}*/
+		for (int i : il)push_back(i);
+	}
+	List(const List& other) :List()
+	{
+		*this = other;
+		cout << "CopyConstructor:\t" << this << endl;
+	}
+	List(List&& other)
+	{
+		*this = std::move(other);
+		cout << "MoveConstructor:\t" << this << endl;
+	}
 	~List()
 	{
 		//while (Head)pop_front();
 		while (Tail)pop_back();
 		cout << "LDestructor:\t" << this << endl;
+	}
+
+	//						Operators:
+	List& operator=(const List& other)
+	{
+		if (this == &other)return *this;
+		while (Head)pop_front();
+		//Deep copy (Глубокое копирование) - Побитовое копирование:
+		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)push_back(Temp->Data);
+		cout << "CopyAssignment:\t" << this << endl;
+		return *this;
+	}
+	List& operator=(List&& other)
+	{
+		if (this == &other)return *this;
+		while (Head)pop_front();
+		//Shallow copy - Поверхностное копирование:
+		this->Head = other.Head;
+		this->Tail = other.Tail;
+		this->size = other.size;
+
+		//Обнуление other:
+		other.Head = nullptr;
+		other.Tail = nullptr;
+		other.size = 0;
+		cout << "MoveAssignment:\t" << this << endl;
 	}
 
 	//						Adding elements:
@@ -194,4 +377,14 @@ void main()
 	List list = { 3,5,8,13,21 };
 	list.print();
 	list.reverse_print();
+	List list2 = list;
+	/*list2.print();
+	list2.reverse_print();*/
+	for (int i : list2)cout << i << tab; cout << endl;
+
+	for (List::ReverseIterator rit = list2.rbegin(); rit != list2.rend(); rit++)
+	{
+		cout << *rit << tab;
+	}
+	cout << endl;
 }
