@@ -6,6 +6,10 @@ https://www.youtube.com/watch?v=MD-QantEx1Y&list=PLeqyOOqxeiIONON3ba77iHmgVPH-p3
 ////////////////////////////////////////////////////////////////////////////////////
 
 TODO:
+1. Методы классов ConstIterator и ConstBaseIterator вынести за класс;
+2. Вынести класс List в отдельные файлы;
+
+DONE:
 Реализовать класс List, описывающий двусвязный список.
 
 DONE:
