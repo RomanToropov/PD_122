@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="List">
+  <Class Name="List&lt;T&gt;">
     <Position X="1" Y="0.5" Width="3.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
@@ -8,39 +8,39 @@
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <NestedTypes>
-      <Class Name="List::Element" Collapsed="true">
+      <Class Name="List&lt;T&gt;::Element" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>main.cpp</NewMemberFileName>
         </TypeIdentifier>
       </Class>
-      <Class Name="List::ConstBaseIterator" Collapsed="true">
+      <Class Name="List&lt;T&gt;::ConstBaseIterator" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>main.cpp</NewMemberFileName>
         </TypeIdentifier>
       </Class>
-      <Class Name="List::ConstIterator" Collapsed="true">
+      <Class Name="List&lt;T&gt;::ConstIterator" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>main.cpp</NewMemberFileName>
         </TypeIdentifier>
       </Class>
-      <Class Name="List::ConstReverseIterator" Collapsed="true">
+      <Class Name="List&lt;T&gt;::ConstReverseIterator" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>main.cpp</NewMemberFileName>
         </TypeIdentifier>
       </Class>
-      <Class Name="List::Iterator" Collapsed="true">
+      <Class Name="List&lt;T&gt;::Iterator" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>main.cpp</NewMemberFileName>
         </TypeIdentifier>
       </Class>
-      <Class Name="List::ReverseIterator" Collapsed="true">
+      <Class Name="List&lt;T&gt;::ReverseIterator" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>main.cpp</NewMemberFileName>
         </TypeIdentifier>
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAQAACACAABAgIAAgKEIAAAQAAAAAAAAAAEiACAEAAI=</HashCode>
+      <HashCode>AAQAAKACACBAgIBAgKEIAAAQAAAAAAAAAAEiAiAEAAI=</HashCode>
       <FileName>main.cpp</FileName>
     </TypeIdentifier>
   </Class>
