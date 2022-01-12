@@ -6,7 +6,7 @@ https://www.youtube.com/watch?v=MD-QantEx1Y&list=PLeqyOOqxeiIONON3ba77iHmgVPH-p3
 ////////////////////////////////////////////////////////////////////////////////////
 
 TODO:
-1. Методы классов ConstIterator и ConstBaseIterator вынести за класс;
+1. Методы классов ConstIterator, ConstBaseIterator и Element вынести за класс;
 2. Вынести класс List в отдельные файлы;
 
 DONE:
