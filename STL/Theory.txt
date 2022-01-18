@@ -1,0 +1,17 @@
+http://cplusplus.com/reference/stl/
+STL - Standard Template Library
+	 (Стандартная шаблонная библиотека)
+Container - это объект, который организует 
+хранение других объектов в памяти.
+
+Sequence containers:	array, vector, deque, forward_list, list;
+Associative containers:	map, set, multimap, multiset;
+Adaptor containers:		
+	stack - стопка  LIFO - Last In - First Out, 
+	queue - очередь FIFO - First In - First Out, 
+	priority_queue - очередь с приоритетами
+Unordered associative containers:
+	unordered_map, 
+	unordered_set, 
+	unordered_multimap, 
+	unordered_multiset;
