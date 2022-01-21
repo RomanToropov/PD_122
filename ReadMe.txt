@@ -8,6 +8,10 @@ https://www.youtube.com/watch?v=MD-QantEx1Y&list=PLeqyOOqxeiIONON3ba77iHmgVPH-p3
 http://cplusplus.com/reference/stl/
 http://cplusplus.com/reference/vector/vector/
 
+В односвязный и двусвязный списки добавить методы:
+	void unique();	//Удаляет повторяющиеся значения
+	void reverse();	//Изменяет порядок следования элементов на противоположный
+
 TODO:
 1. Добавить в вектор значение по заданному индексу. Индекс и значение вводятся с клавиатуры;
 2. Удалить из вектора значение по заданному индексу. Индекс вводится с клавиатуры;

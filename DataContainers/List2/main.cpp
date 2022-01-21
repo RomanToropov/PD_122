@@ -195,6 +195,11 @@ public:
 		return nullptr;
 	}
 
+	int get_size()const
+	{
+		return size;
+	}
+
 	//						Constructor:
 	List()
 	{
@@ -251,6 +256,23 @@ public:
 		other.Tail = nullptr;
 		other.size = 0;
 		cout << "MoveAssignment:\t" << this << endl;
+	}
+
+	const int& operator[](size_t index)const
+	{
+		if (index >= size)throw std::exception("Error:out of range");
+		Element* Temp;
+		if (index < size / 2)
+		{
+			Temp = Head;
+			for (int i = 0; i < index; i++)Temp = Temp->pNext;
+		}
+		else
+		{
+			Temp = Tail;
+			for (int i = 0; i < size - index - 1; i++)Temp = Temp->pPrev;
+		}
+		return Temp->Data;
 	}
 
 	//						Adding elements:
@@ -392,6 +414,7 @@ void reverse_print_list(const List& list)
 }
 
 //#define BASE_CHECK
+//#define ITERATORS_CHECK
 
 void main()
 {
@@ -420,6 +443,7 @@ void main()
 	list.reverse_print();
 #endif // BASE_CHECK
 
+#ifdef ITERATORS_CHECK
 	List list = { 3,5,8,13,21 };
 	list.print();
 	list.reverse_print();
@@ -436,4 +460,24 @@ void main()
 
 	print_list(list);
 	reverse_print_list(list);
+#endif // ITERATORS_CHECK
+
+	List list = { 3, 5, 8, 13, 21, 34, 55, 89 };
+	try
+	{
+		for (int i = 0; i < list.get_size() * 2; i++)
+		{
+			cout << list[i] << tab;
+		}
+		cout << endl;
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << endl;
+	}
+	catch (...)
+	{
+		//	/EHa
+		std::cerr << "Something happened" << endl;
+	}
 }
