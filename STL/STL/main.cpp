@@ -21,7 +21,7 @@ void main()
 	//T - тип элементов
 	//N - количество элементов
 	const int n = 5;
-	std::array<int, n> arr = {3,5,8};
+	std::array<int, n> arr = { 3,5,8 };
 	for (int i = 0; i < n; i++)
 	{
 		cout << arr[i] << tab;
@@ -31,7 +31,7 @@ void main()
 
 #ifdef STL_VECTOR
 	//vector - это контейнер, который хранит данные в виде динамического массива.
-	std::vector<int> vec = {0,1,1,2,3,5,8,13,21,34};
+	std::vector<int> vec = { 0,1,1,2,3,5,8,13,21,34 };
 	cout << "Size:    " << vec.size() << endl;
 	cout << "Capacity:" << vec.capacity() << endl;
 	cout << "MaxSize: " << vec.max_size() << endl;
@@ -63,6 +63,18 @@ void main()
 	cout << "Capacity:" << d_vec.capacity() << endl;
 	cout << "MaxSize: " << d_vec.max_size() << endl;*/
 
+	int index;
+	int value;
+	cout << "Введите индекс добавляемого элемента: "; cin >> index;
+	cout << "Введите значение добавляемого элемента: "; cin >> value;
+
+	vec.insert(vec.begin() + index, value);
+
+	for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); ++it)
+	{
+		cout << *it << tab;
+	}
+	cout << endl;
 
 #endif // STL_VECTOR
 
