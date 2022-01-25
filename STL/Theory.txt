@@ -15,3 +15,5 @@ Unordered associative containers:
 	unordered_set, 
 	unordered_multimap, 
 	unordered_multiset;
+
+pair: key - value
