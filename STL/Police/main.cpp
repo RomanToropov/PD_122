@@ -90,6 +90,9 @@ void load(std::map<std::string, std::list<Crime>>& base)
 		while (!fin.eof())
 		{
 			std::getline(fin, licence_plate, ':');
+			Crime crime;
+			fin >> crime;
+#ifdef DEBUG
 			std::getline(fin, all_crimes);
 			if (licence_plate.empty())break;
 			/*all_crimes.erase(0, all_crimes.find_first_not_of(' '));
@@ -119,6 +122,8 @@ void load(std::map<std::string, std::list<Crime>>& base)
 				while (*pch == ' ')pch++;
 				base[licence_plate].push_back(Crime(atoi(pch), pch + 1));
 			}
+#endif // DEBUG
+
 		}
 		fin.close();
 	}
