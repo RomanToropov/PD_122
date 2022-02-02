@@ -42,11 +42,17 @@ class Iterator
 public:
 	Iterator(Element* Temp = nullptr) :Temp(Temp)
 	{
+#ifdef DEBUG
 		cout << "ItConstructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	~Iterator()
 	{
+#ifdef DEBUG
 		cout << "ItDestructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 
 	Iterator& operator++()	//Prefix increment
@@ -109,6 +115,10 @@ public:
 		size = 0;
 		cout << "LConstrcutor:\t" << this << endl;
 	}
+	ForwardList(int size):ForwardList()
+	{
+		while (size--)push_front(0);
+	}
 	ForwardList(const std::initializer_list<int>& il) :ForwardList()
 	{
 		//begin() - возвращает итератор на начало контейнера
@@ -143,6 +153,18 @@ public:
 			push_back(Temp->Data);
 		cout << "CopyAssignment:\t" << this << endl;
 		return *this;
+	}
+	const int& operator[](int index)const 
+	{
+		Element* Temp = Head;
+		for (int i = 0; i < index; i++)Temp = Temp->pNext;
+		return Temp->Data;
+	}
+	int& operator[](int index)
+	{
+		Element* Temp = Head;
+		for (int i = 0; i < index; i++)Temp = Temp->pNext;
+		return Temp->Data;
 	}
 
 	//				Adding Elements:
@@ -331,10 +353,19 @@ void main()
 	cout << endl;
 #endif // DEBUG
 
-	ForwardList list = { 3,5,8,13,21 };
+	/*ForwardList list = { 3,5,8,13,21 };
 	for (int i : list)
 	{
 		cout << i << tab;
 	}
-	cout << endl;
+	cout << endl;*/
+
+	int n; cout << "Введите размер списка: "; cin >> n;
+	ForwardList list(n);
+	/*for (int i = 0; i < n; i++)
+	{
+		list[i] = rand();
+	}*/
+	for (Iterator it = list.begin(); it != list.end(); ++it)*it = rand();
+	cout << "List filled" << endl;
 }
