@@ -130,19 +130,22 @@ class Car
 	bool driver_inside;
 	int speed;
 	const int MAX_SPEED;
+	int accelleration;
 	struct Control
 	{
 		std::thread panel_thread;
 		std::thread engine_idle_thread;
+		std::thread free_wheeling_thread;
 	}control;
 public:
-	Car(double consumption, unsigned int volume, int max_speed) :
+	Car(double consumption, unsigned int volume, int max_speed, int accelleration = 10) :
 		engine(consumption),
 		tank(volume),
 		MAX_SPEED(max_speed >= 80 && max_speed <= 400 ? max_speed : 180)
 	{
 		driver_inside = false;
 		speed = 0;
+		this->accelleration = accelleration;
 		cout << "Your car is ready: " << this << endl;
 	}
 	~Car()
@@ -201,11 +204,28 @@ public:
 				if (driver_inside)get_out();
 				else get_in();
 				break;
+			case 'W':case 'w':
+				if (driver_inside && engine.started())
+				{
+					if (speed < MAX_SPEED)speed += accelleration;
+					if (speed > MAX_SPEED)speed = MAX_SPEED;
+					if (!control.free_wheeling_thread.joinable())
+						control.free_wheeling_thread = std::thread(&Car::free_wheeling, this);
+					std::this_thread::sleep_for(1s);
+				}
+				break;
+			case 'S':case 's':
+				if (speed > 0)speed -= accelleration * 2;
+				if (speed < 0)speed = 0;
+				std::this_thread::sleep_for(1s);
+				break;
 			case Escape:
+				speed = 0;
 				stop_engine();
 				get_out();
 			}
 			if (tank.get_fuel_level() == 0)stop_engine();
+			if (speed == 0 && control.free_wheeling_thread.joinable())control.free_wheeling_thread.join();
 		} while (key != Escape);
 	}
 
@@ -218,21 +238,40 @@ public:
 		//stop_engine();
 		engine.stop();
 	}
+	void free_wheeling()
+	{
+		while (speed > 0)
+		{
+			speed--;
+			std::this_thread::sleep_for(1s);
+		}
+	}
 	void panel()const
 	{
 		while (driver_inside)
 		{
 			system("CLS");
+			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+			int i = 0;
+			for (; i < speed*.4; i++)
+			{
+				if (i > 50)SetConsoleTextAttribute(hConsole, 0x0E);
+				if (i > 80)SetConsoleTextAttribute(hConsole, 0x0C);
+				cout << "|";
+			}
+			SetConsoleTextAttribute(hConsole, 0x07);
+			cout << i;
+			cout << endl;
 			cout << "Fuel level " << std::setprecision(4) << fixed << tank.get_fuel_level() << " liters.\t";
 			if (tank.get_fuel_level() < 5)
 			{
-				HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 				SetConsoleTextAttribute(hConsole, 0x60);
 				cout << "LOW FUEL";
 				SetConsoleTextAttribute(hConsole, 0x07);
 			}
 			cout << endl;
 			cout << "Engine is " << (engine.started() ? "started" : "stopped") << endl;
+			cout << "Speed: " << speed << " km/h\n";
 			std::this_thread::sleep_for(500ms);
 		}
 	}
@@ -268,7 +307,7 @@ void main()
 	engine.info();
 #endif // ENGINE_CHECK
 
-	Car bmw(11, 80, 250);
+	Car bmw(11, 80, 250, 20);
 	//bmw.info();
 	bmw.control_car();
 }
