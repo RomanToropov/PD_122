@@ -3,6 +3,8 @@
 #include<stdio.h>
 #include"resource.h"
 
+#define IDC_STATIC_RESOLUTION	1000
+
 CONST CHAR g_szClassName[] = "MyWindowClass";
 CONST CHAR g_szTitle[] = "My first Window";
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -75,6 +77,24 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (uMsg)
 	{
 	case WM_CREATE:
+	{
+		/*RECT rect;
+		GetClientRect(hwnd, &rect);
+		CreateWindowEx
+		(
+			NULL,
+			"STATIC",
+			"ScreenResolution",
+			WS_CHILD | WS_VISIBLE,
+			rect.top, rect.left,
+			520, 15,
+			hwnd,
+			(HMENU)IDC_STATIC_RESOLUTION,
+			GetModuleHandle(NULL),
+			NULL
+		);*/
+
+	}
 		break;
 	case WM_COMMAND:
 		break;
@@ -91,6 +111,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		int window_height = rect.bottom - rect.top;
 		sprintf(buffer, "%s - position: %dx%d, size: %dx%d", g_szTitle, window_start_x, window_start_y, window_width, window_height);
 		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)buffer);
+		//MessageBox(hwnd, buffer, "", MB_OK);
+		//SendMessage(GetDlgItem(hwnd, IDC_STATIC_RESOLUTION), WM_SETTEXT, 0, (LPARAM)buffer);
 	}
 	break;
 	case WM_CLOSE:
