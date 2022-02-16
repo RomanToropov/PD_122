@@ -6,6 +6,8 @@
 #define IDI_ICON_MOON                   102
 #define IDC_CURSOR1                     105
 
+#define IDC_TOOLTIP						1100
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
