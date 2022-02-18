@@ -1,4 +1,4 @@
-
+п»ї
 Cursors:http://www.rw-designer.com/cursor-set/metal-1
 
 DOCS:https://docs.microsoft.com/en-us/windows/win32/winmsg/windowing
@@ -8,8 +8,12 @@ TrackingTooltip:https://docs.microsoft.com/en-us/windows/win32/controls/implemen
 Forger's tutorial:http://www.winprog.org/tutorial/
 
 TODO:
-При нажатии на кнопки в калькуляторе, на табло должны появляться соответствующие цифры.
+1. РћРїС‚РёРјРёР·РёСЂРѕРІР°С‚СЊ РєРѕРґ WM_COMMAND;
+2. РЈР±СЂР°С‚СЊ Р»РёС€РЅРёРµ РЅСѓР»Рё РїСЂРё РІС‹РІРѕРґРµ;
 
 DONE:
-Добавить проект ListBox, и создать такое же окно как с ComboBox, только с ListBox.
+РџСЂРё РЅР°Р¶Р°С‚РёРё РЅР° РєРЅРѕРїРєРё РІ РєР°Р»СЊРєСѓР»СЏС‚РѕСЂРµ, РЅР° С‚Р°Р±Р»Рѕ РґРѕР»Р¶РЅС‹ РїРѕСЏРІР»СЏС‚СЊСЃСЏ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ С†РёС„СЂС‹.
+
+DONE:
+Р”РѕР±Р°РІРёС‚СЊ РїСЂРѕРµРєС‚ ListBox, Рё СЃРѕР·РґР°С‚СЊ С‚Р°РєРѕРµ Р¶Рµ РѕРєРЅРѕ РєР°Рє СЃ ComboBox, С‚РѕР»СЊРєРѕ СЃ ListBox.
 https://docs.microsoft.com/en-us/windows/win32/controls/list-boxes
